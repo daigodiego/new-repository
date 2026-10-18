@@ -161,7 +161,8 @@ textarea.field{width:100%;min-height:90px;font-size:13px;font-family:ui-monospac
 
 <script>
 /* ===== 接続設定と保存先(Firebase Realtime Database REST) ===== */
-function getConn(){try{return JSON.parse(localStorage.getItem('trip-conn')||'null');}catch(e){return null;}}
+const DEFAULT_CONN={d:'https://finland-trip-2027-default-rtdb.asia-southeast1.firebasedatabase.app',k:'kojikojikoji'};
+function getConn(){try{return JSON.parse(localStorage.getItem('trip-conn')||'null')||DEFAULT_CONN;}catch(e){return DEFAULT_CONN;}}
 const CONN=getConn();
 const REMOTE=!!(CONN&&CONN.d&&CONN.k);
 const dbBase=REMOTE?CONN.d.replace(/\/+$/,'')+'/trip/'+encodeURIComponent(CONN.k)+'/':'';
