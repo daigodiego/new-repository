@@ -47,7 +47,7 @@ section>h2:first-child{margin-top:4px}
 .overview{display:flex;gap:3px;margin:2px 0 6px}
 .overview div{flex:1;text-align:center;font-size:11px;font-weight:700;padding:6px 0;border-radius:4px;color:#fff;line-height:1.25;background:var(--pc)}
 .overview div span{display:block;font-weight:600}
-.p-inari{--pc:var(--green)}.p-rov{--pc:var(--blue)}.p-hel{--pc:var(--red)}.p-move{--pc:#8A94A6}
+.p-inari{--pc:var(--green)}.p-rov{--pc:var(--blue)}.p-hel{--pc:var(--red)}.p-sha{--pc:var(--yellow)}.p-move{--pc:#8A94A6}
 .day{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--pc);border-radius:8px;padding:14px 14px 10px;margin-bottom:12px}
 .dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .date{font-size:24px;font-weight:800;line-height:1}
@@ -133,7 +133,7 @@ textarea.field{width:100%;min-height:90px;font-size:13px;font-family:ui-monospac
 <header class="hero">
   <h1>フィンランド オーロラ旅</h1>
   <div class="dates">2027年2月20日(土)〜3月1日(月)　<span style="opacity:.7">v5</span></div>
-  <div class="sync" id="sync"></div>
+  <div class="sync" id="sync" data-tab="settings"></div>
   <div class="total" id="heroPP"></div>
   <div class="pair" id="heroPair"></div>
   <div class="split" aria-hidden="true"><div class="f" id="barF"></div><div class="e" id="barE"></div></div>
@@ -147,7 +147,6 @@ textarea.field{width:100%;min-height:90px;font-size:13px;font-family:ui-monospac
   <button role="tab" data-tab="split" aria-selected="false">割り勘</button>
   <button role="tab" data-tab="todo" aria-selected="false">やること</button>
   <button role="tab" data-tab="notes" aria-selected="false">注意</button>
-  <button role="tab" data-tab="settings" aria-selected="false">設定</button>
 </nav>
 <main>
   <section id="plan"></section>
@@ -189,8 +188,8 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const yen=n=>'¥'+Math.round(n).toLocaleString('ja-JP');
 const $=id=>document.getElementById(id);
 
-const AREAS={inari:'イナリ',rov:'ロヴァニエミ',hel:'ヘルシンキ'};
-const DAYS=[['','未定'],['2/21','2/21(日)'],['2/22','2/22(月)'],['2/23','2/23(火)'],['2/24','2/24(水)'],['2/25','2/25(木)'],['2/26','2/26(金)'],['2/27','2/27(土)']];
+const AREAS={sha:'上海',inari:'イナリ',rov:'ロヴァニエミ',hel:'ヘルシンキ'};
+const DAYS=[['','未定'],['2/20','2/20(土)'],['2/21','2/21(日)'],['2/22','2/22(月)'],['2/23','2/23(火)'],['2/24','2/24(水)'],['2/25','2/25(木)'],['2/26','2/26(金)'],['2/27','2/27(土)'],['2/28','2/28(日)']];
 
 const PLAN=[
  {d:'2/20',w:'土',p:'move',title:'出発。上海で1泊',sleep:'上海泊',ev:[['13:15','成田発(吉祥航空 HO1380)',1],['15:40','上海浦東着。入国してホテルへ']]},
@@ -402,7 +401,7 @@ const NOTES=[
  ['寒さ対策',['2月のラップランドは氷点下20℃以下になることもある。重ね着、帽子、手袋、ネックウォーマーを。','靴は防水で滑りにくいもの。凍った道で転びやすい。','寒さでスマホの電池が急に減る。モバイルバッテリーを持ち、スマホは内ポケットへ。','防寒具はツアーで貸してもらえることが多い。予約時に確認する。']],
  ['オーロラ',['見えるかどうかは雲次第。曇りの夜は、晴れ間を探して移動するツアーが有利。','オーロラ予報アプリと天気予報を、毎日夕方に確認する。','撮影は三脚があると格段にきれいに撮れる。スマホは夜景モードで、手すりなどに固定する。','夜はかなり冷えるので、長時間外で待つときは一番暖かい格好で。']],
  ['お金と支払い',['フィンランドはカード払いが中心で、現金はほとんど不要。タッチ決済が便利。','上海ではAlipayやWeChat Payがあると安心。日本のクレジットカードを登録して使える。','フィンランドではチップは基本的に不要。']],
- ['このアプリの使い方',['ホーム画面のアイコンから開く。Claudeにログインする必要はない。','でごりんとみゆが同じ接続コードを設定すると、追加・変更・チェックがお互いの画面に数秒で反映される。','電波がないときは、最後に見たデータが表示される。変更はその端末に保存され、つながったら自動で同期する。','画面上部の緑の表示が「2人で共有中」なら同期できている。赤い表示のときは、その端末だけに保存されている。','同じ項目を同時に書き換えると、あとから保存したほうが残る。']],
+ ['このアプリの使い方',['ホーム画面のアイコンから開く。Claudeにログインする必要はない。','追加・変更・チェックは、お互いの画面に数秒で反映される。','電波がないときは、最後に見たデータが表示される。変更はその端末に保存され、つながったら自動で同期する。','画面上部の緑の表示が「2人で共有中」なら同期できている。赤い表示のときは、その端末だけに保存されている。','同じ項目を同時に書き換えると、あとから保存したほうが残る。']],
  ['共有データの安全について',['接続コードを知っている人は、日程や金額を見られるうえ、書き換えもできる。家族以外には教えない。','予約番号、パスポート番号、住所は、このアプリに書かない。','旅行が終わったら、Firebaseのプロジェクトを削除すれば、データは消える。']],
  ['生活と安全',['フィンランドのコンセントはCタイプ(230V)。変換プラグが必要。','フィンランドの水道水はそのまま飲める。','イナリは小さな村で、店やレストランが少なく、閉まるのも早め。夕食の場所は宿に確認しておく。','凍った湖の上は、自分だけで歩かずツアーで。','スノーモービルの運転には免許が必要なことが多い。日本の運転免許証を持っていく。']]
 ];
