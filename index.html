@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0035AD">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="フィンランド">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<title>フィンランド旅行 2027年2月</title>
+<style>
+:root{--snow:#F4F6F8;--ink:#1B2A4A;--muted:#5B6782;--line:#D5DCE4;--blue:#0035AD;--red:#C8102E;--green:#007A3D;--yellow:#FFCE00;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--ink);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;font-size:16px;line-height:1.6;font-variant-numeric:tabular-nums}
+button,input,select{font:inherit;color:inherit}
+.hero{background:var(--blue);color:#fff;padding:20px 20px 16px}
+.hero h1{margin:0;font-size:21px;font-weight:800}
+.hero .dates{margin:2px 0 6px;font-size:14px;opacity:.85}
+.sync{font-size:12px;opacity:.95;margin-bottom:8px}
+.sync i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.total{font-size:42px;font-weight:800;line-height:1.1}
+.total small{font-size:15px;font-weight:600;margin-left:6px;opacity:.85}
+.pair{font-size:14px;opacity:.9;margin-top:4px}
+.split{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:12px 0 6px;background:rgba(255,255,255,.2)}
+.split .f{background:#7FD3A2}.split .e{background:var(--yellow)}
+.legend{display:flex;gap:16px;font-size:13px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.stripe{display:flex;height:5px}.stripe span{flex:1}
+nav{position:sticky;top:0;z-index:5;display:flex;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--line);scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:1 0 auto;padding:13px 14px;border:0;background:none;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+main{max-width:640px;margin:0 auto;padding:16px 16px 70px}
+section[hidden]{display:none}
+h2{font-size:17px;margin:22px 0 10px}
+section>h2:first-child{margin-top:4px}
+.note{font-size:13px;color:var(--muted);margin-top:12px}
+.btn{padding:8px 14px;border:0;border-radius:6px;background:var(--ink);color:#fff;font-weight:700;cursor:pointer}
+.btn.sub{background:var(--card);color:var(--ink);border:1px solid var(--line);font-weight:600}
+.link{border:0;background:none;color:var(--muted);font-size:13px;cursor:pointer;padding:4px 2px;text-decoration:underline}
+.field{font-size:16px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:#FAFBFC;min-width:0}
+/* plan */
+.overview{display:flex;gap:3px;margin:2px 0 6px}
+.overview div{flex:1;text-align:center;font-size:11px;font-weight:700;padding:6px 0;border-radius:4px;color:#fff;line-height:1.25;background:var(--pc)}
+.overview div span{display:block;font-weight:600}
+.p-inari{--pc:var(--green)}.p-rov{--pc:var(--blue)}.p-hel{--pc:var(--red)}.p-move{--pc:#8A94A6}
+.day{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--pc);border-radius:8px;padding:14px 14px 10px;margin-bottom:12px}
+.dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.date{font-size:24px;font-weight:800;line-height:1}
+.date small{font-size:14px;font-weight:700;color:var(--muted);margin-left:6px}
+.dnum{font-size:12px;color:var(--muted);font-weight:700;margin-top:4px}
+.sleep{flex:none;font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--pc);color:#fff;max-width:60%;text-align:right}
+.dtitle{font-size:17px;font-weight:800;margin:10px 0 8px}
+.ev{display:grid;grid-template-columns:60px 1fr;gap:10px;padding:7px 0;border-top:1px dashed var(--line);font-size:15px}
+.ev b{font-size:16px;font-weight:800}
+.ev.key b{color:var(--red)}
+.go{padding:8px 0 2px;border-top:1px dashed var(--line);font-size:14px}
+.chip{display:inline-block;font-size:13px;font-weight:700;padding:2px 9px;border-radius:999px;background:#E6ECF7;color:var(--blue);margin:3px 4px 0 0}
+/* money */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px}
+.modes{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.modes button{padding:8px 14px;border:0;background:var(--card);font-weight:700;color:var(--muted);cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.rate{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.rate input{width:70px}
+.row{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:6px;padding:10px 12px;margin-bottom:8px}
+.row.est{border-left-color:var(--yellow)}
+.row .top{display:flex;gap:10px;align-items:center}
+.row .nm{flex:1;font-weight:700;border:0;background:none;padding:2px 0;font-size:16px;min-width:0}
+.row .amt{font-weight:800;white-space:nowrap}
+.row .nt{width:100%;border:0;background:none;font-size:13px;color:var(--muted);padding:0}
+.calc{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:14px;color:var(--muted)}
+.calc .field{padding:5px 7px}
+.calc input.p{width:100px}.calc input.q{width:52px}
+.rfoot{display:flex;justify-content:space-between;margin-top:4px}
+.sum{display:flex;justify-content:space-between;font-weight:800;font-size:18px;padding:10px 2px;border-top:2px solid var(--ink);margin-top:6px}
+.sum.grand{color:var(--red);font-size:22px}
+/* spots */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.filters button{padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:14px;font-weight:700;cursor:pointer;color:var(--muted)}
+.filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.spot{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--pc);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.spot .sh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.spot .sn{font-weight:800;font-size:16px}
+.spot .sa{font-size:12px;font-weight:700;color:var(--pc);white-space:nowrap}
+.spot .sd{font-size:14px;margin:4px 0 6px}
+.spot .sctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.spot dl{margin:8px 0 0;font-size:14px;display:grid;grid-template-columns:72px 1fr;gap:4px 10px}
+.spot dt{font-weight:700;color:var(--muted)}.spot dd{margin:0}
+.addbox{background:var(--card);border:1px dashed var(--line);border-radius:8px;padding:12px;display:grid;gap:8px;margin-top:12px}
+.addbox .r{display:flex;gap:8px;flex-wrap:wrap}
+.addbox .r .field{flex:1}
+/* split */
+.sentence{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:10px;font-weight:700}
+.sentence .r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sentence .who label{display:flex;align-items:center;gap:6px;font-weight:600;margin-right:14px}
+.sentence input[type=checkbox]{width:20px;height:20px;accent-color:var(--red)}
+.pay{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.pay .pn{font-weight:700}.pay .pm{font-size:13px;color:var(--muted)}
+.pay .pa{font-weight:800;text-align:right;white-space:nowrap}
+.settle{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding:12px 0;border-bottom:1px solid var(--line)}
+.members{display:flex;gap:8px;margin-bottom:6px}.members .field{flex:1}
+/* todo */
+.progress{font-size:14px;font-weight:700;margin-bottom:4px}
+.pbar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.pbar div{height:100%;background:var(--green)}
+.todo{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}
+.todo input[type=checkbox]{width:22px;height:22px;margin-top:2px;accent-color:var(--green);flex:none}
+.todo .tx{flex:1}
+.todo .t{font-weight:700;display:block}.todo .n{font-size:13px;color:var(--muted);display:block}
+.todo.done .t{text-decoration:line-through;color:var(--muted)}
+/* notes */
+details{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:10px}
+summary{padding:13px 14px;font-weight:800;cursor:pointer}
+details ul{margin:0;padding:0 16px 12px 32px;font-size:15px}
+details li{margin-bottom:8px}
+ .sync .link{color:#fff;font-size:12px;text-decoration:underline;opacity:1;margin-left:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:15px}
+.card .r{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.card .r .field{flex:1}
+.card label.l{display:block;font-weight:700;font-size:14px;margin-top:10px}
+.msg{font-size:14px;margin-top:8px;min-height:1.4em}
+.msg.ng{color:var(--red)}.msg.ok{color:var(--green)}
+textarea.field{width:100%;min-height:90px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>フィンランド オーロラ旅</h1>
+  <div class="dates">2027年2月20日(土)〜3月1日(月)　<span style="opacity:.7">v5</span></div>
+  <div class="sync" id="sync"></div>
+  <div class="total" id="heroPP"></div>
+  <div class="pair" id="heroPair"></div>
+  <div class="split" aria-hidden="true"><div class="f" id="barF"></div><div class="e" id="barE"></div></div>
+  <div class="legend"><span><i style="background:#7FD3A2"></i>確定 <span id="lgF"></span></span><span><i style="background:var(--yellow)"></i>見積もり <span id="lgE"></span></span></div>
+</header>
+<div class="stripe" aria-hidden="true"><span style="background:var(--red)"></span><span style="background:var(--blue)"></span><span style="background:var(--green)"></span><span style="background:var(--yellow)"></span></div>
+<nav role="tablist" id="tabs">
+  <button role="tab" data-tab="plan" aria-selected="true">日程</button>
+  <button role="tab" data-tab="spots" aria-selected="false">観光</button>
+  <button role="tab" data-tab="money" aria-selected="false">お金</button>
+  <button role="tab" data-tab="split" aria-selected="false">割り勘</button>
+  <button role="tab" data-tab="todo" aria-selected="false">やること</button>
+  <button role="tab" data-tab="notes" aria-selected="false">注意</button>
+  <button role="tab" data-tab="settings" aria-selected="false">設定</button>
+</nav>
+<main>
+  <section id="plan"></section>
+  <section id="spots" hidden></section>
+  <section id="money" hidden></section>
+  <section id="split" hidden></section>
+  <section id="todo" hidden></section>
+  <section id="notes" hidden></section>
+  <section id="settings" hidden></section>
+</main>
+
+<script>
+/* ===== 接続設定と保存先(Firebase Realtime Database REST) ===== */
+function getConn(){try{return JSON.parse(localStorage.getItem('trip-conn')||'null');}catch(e){return null;}}
+const CONN=getConn();
+const REMOTE=!!(CONN&&CONN.d&&CONN.k);
+const dbBase=REMOTE?CONN.d.replace(/\/+$/,'')+'/trip/'+encodeURIComponent(CONN.k)+'/':'';
+const keyName=k=>k.replace(/[^A-Za-z0-9_-]/g,'_');
+window.storage={
+  async get(k){
+    if(!REMOTE){const v=localStorage.getItem('loc:'+k); if(v==null) throw new Error('nf'); return {key:k,value:v};}
+    const r=await fetch(dbBase+keyName(k)+'.json',{cache:'no-store'});
+    if(!r.ok) throw new Error('http '+r.status);
+    const j=await r.json(); if(j==null) throw new Error('nf');
+    return {key:k,value:j};
+  },
+  async set(k,v){
+    if(!REMOTE){localStorage.setItem('loc:'+k,v); return {key:k,value:v};}
+    const r=await fetch(dbBase+keyName(k)+'.json',{method:'PUT',body:JSON.stringify(v)});
+    if(!r.ok) throw new Error('http '+r.status);
+    return {key:k,value:v};
+  }
+};
+const KEY='trip:';
+const clone=o=>JSON.parse(JSON.stringify(o));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const yen=n=>'¥'+Math.round(n).toLocaleString('ja-JP');
+const $=id=>document.getElementById(id);
+
+const AREAS={inari:'イナリ',rov:'ロヴァニエミ',hel:'ヘルシンキ'};
+const DAYS=[['','未定'],['2/21','2/21(日)'],['2/22','2/22(月)'],['2/23','2/23(火)'],['2/24','2/24(水)'],['2/25','2/25(木)'],['2/26','2/26(金)'],['2/27','2/27(土)']];
+
+const PLAN=[
+ {d:'2/20',w:'土',p:'move',title:'出発。上海で1泊',sleep:'上海泊',ev:[['13:15','成田発(吉祥航空 HO1380)',1],['15:40','上海浦東着。入国してホテルへ']]},
+ {d:'2/21',w:'日',p:'inari',title:'上海 → ヘルシンキ → イナリ',sleep:'イナリ泊(宿は未定)',ev:[['8:40','上海発(HO1607)',1],['12:55','ヘルシンキ着。荷物を受け取り、預け直す'],['19:20','ヘルシンキ発(フィンエアー)',1],['21:05','イヴァロ着。イナリの宿へ約40分']]},
+ {d:'2/22',w:'月',p:'inari',title:'イナリで丸1日',sleep:'ホリデイヴィレッジ・イナリ泊',ev:[['日中','氷上釣り、サーミ文化'],['夜','ガラス屋根の宿でオーロラ待ち']]},
+ {d:'2/23',w:'火',p:'rov',title:'バスでロヴァニエミへ',sleep:'ロヴァニエミ泊',ev:[['7:15','イナリ(K-market前)をバスで出発',1],['12:15','ロヴァニエミ駅着。チェックイン'],['午後','市内観光'],['夜','オーロラ']]},
+ {d:'2/24',w:'水',p:'rov',title:'サンタ村で1日',sleep:'ロヴァニエミ泊',ev:[['日中','サンタ村。犬ぞり、北極線、サンタの郵便局'],['夜','オーロラツアー']]},
+ {d:'2/25',w:'木',p:'move',title:'夜行列車でヘルシンキへ',sleep:'車中泊',ev:[['日中','チェックアウト。荷物を預けて観光'],['21:00','夜行列車(椅子席)でロヴァニエミ発',1]]},
+ {d:'2/26',w:'金',p:'hel',title:'ヘルシンキ観光',sleep:'ヘルシンキ泊',ev:[['9:15','ヘルシンキ着',1],['日中','観光、サウナ']]},
+ {d:'2/27',w:'土',p:'move',title:'帰国へ',sleep:'機内泊',ev:[['16:40','ヘルシンキ発(HO1608)',1]]},
+ {d:'2/28',w:'日',p:'move',title:'上海で乗り継ぎ',sleep:'機内泊',ev:[['7:50','上海着。13時間45分待ち'],['21:35','上海発(HO1385)',1]]},
+ {d:'3/1',w:'月',p:'move',title:'帰宅',sleep:'',ev:[['1:05','羽田着',1]]}
+];
+
+const DEF_SPOTS=[
+ {area:'inari',day:'2/22',name:'Siida(サーミ博物館・自然センター)',desc:'サーミの暮らしと北極圏の自然を学べる、イナリの中心的な施設。',time:'2〜3時間',book:'不要(当日入場)',tip:'イナリ観光の最初に行くと、その後の体験が分かりやすくなる。'},
+ {area:'inari',day:'2/22',name:'イナリ湖の氷上釣り',desc:'凍った湖に穴を開けて釣る体験。ツアーで参加するのが基本。',time:'2〜3時間',book:'要予約(ツアー)',tip:'氷の上は自分だけで歩かず、ガイドと一緒に。'},
+ {area:'inari',day:'',name:'Sajos(サーミ文化センター)',desc:'サーミ議会が入る建物。展示やサーミの手工芸品が見られる。',time:'30分〜1時間',book:'不要',tip:'Siidaの近く。まとめて回れる。'},
+ {area:'inari',day:'',name:'ピエルパヤルヴィ荒野教会',desc:'森の奥に建つ古い木造教会。冬はスノーシューなどで向かう。',time:'半日',book:'不要(ガイド付きツアーもあり)',tip:'片道数kmの雪道。体力と天気次第で。'},
+ {area:'rov',day:'2/24',name:'サンタクロース村',desc:'北極線が通る村。サンタに会える、郵便局から手紙が出せる、犬ぞりやトナカイそりもできる。',time:'半日〜1日',book:'入村は不要。犬ぞりは要予約',tip:'犬ぞりは村の中で申し込めるコースもあるが、2月は混むので事前予約が安心。'},
+ {area:'rov',day:'2/23',name:'アルクティクム(北極圏科学館)',desc:'北極圏の自然、オーロラ、ラップランドの歴史を展示する博物館。',time:'2時間ほど',book:'不要',tip:'到着日の午後にちょうどいい。'},
+ {area:'rov',day:'',name:'オウナスヴァーラの丘',desc:'街を見下ろす丘。スキーやスノーシュー、夜はオーロラ観察スポットにも。',time:'2〜3時間',book:'不要',tip:'市内から近く、ツアーに頼らずオーロラを探すときの候補。'},
+ {area:'rov',day:'',name:'スノーモービル',desc:'雪原や森をスノーモービルで走るツアー。',time:'2〜3時間',book:'要予約(ツアー)',tip:'運転には免許が必要なことが多い。日本の運転免許を持っていくと安心。'},
+ {area:'hel',day:'2/26',name:'ロウリュ(Löyly)',desc:'海沿いのデザイン系公衆サウナ。サウナの後に海へ入れる。',time:'2時間ほど',book:'予約推奨',tip:'水着が必要。'},
+ {area:'hel',day:'',name:'アッラス・シープール',desc:'港に面した屋外プールとサウナ。冬でも温水プールが使える。',time:'1〜2時間',book:'不要',tip:'マーケット広場のすぐそば。'},
+ {area:'hel',day:'2/26',name:'ヘルシンキ大聖堂と元老院広場',desc:'白い大聖堂が建つ、ヘルシンキの象徴的な広場。',time:'30分ほど',book:'不要',tip:'マーケット広場と合わせて歩いて回れる。'},
+ {area:'hel',day:'2/26',name:'マーケット広場とオールド・マーケットホール',desc:'港沿いの市場と、屋内の老舗市場。軽食やお土産に。',time:'1時間ほど',book:'不要',tip:'冬は屋外の店が少ないので、屋内のホールが中心。'},
+ {area:'hel',day:'',name:'テンペリアウキオ教会(岩の教会)',desc:'岩をくり抜いて造った教会。',time:'30分ほど',book:'不要',tip:'行事で入れない時間がある。'},
+ {area:'hel',day:'',name:'スオメンリンナ要塞',desc:'フェリーで渡る島の世界遺産。冬の海景色が見られる。',time:'半日',book:'不要(フェリーは公共交通)',tip:'冬は島内の店や施設が少なめ。'},
+ {area:'hel',day:'',name:'中央図書館オーディ',desc:'デザインが有名な図書館。休憩にも使える。',time:'1時間ほど',book:'不要',tip:'中央駅から近い。'}
+].map((s,i)=>({id:'s'+i,u:0,...s}));
+
+const DEF_MONEY=[
+ {name:'国際線(吉祥航空 往復)',note:'みゆが支払い済み',status:'fixed',price:343011,qty:1,per:'pair',cur:'JPY'},
+ {name:'ヘルシンキ→イヴァロ',note:'2/21 19:20 フィンエアー。でごりんが支払い済み',status:'fixed',price:65850,qty:1,per:'pair',cur:'JPY'},
+ {name:'夜行列車(椅子席)',note:'2/25 21:00発。でごりんが支払い済み',status:'fixed',price:9908,qty:1,per:'pair',cur:'JPY'},
+ {name:'イナリの宿 2泊目',note:'2/22 ホリデイヴィレッジ・イナリ。みゆが支払い済み',status:'fixed',price:98460,qty:1,per:'pair',cur:'JPY'},
+ {name:'イナリの宿 1泊目',note:'2/21。未定',status:'est',price:25000,qty:1,per:'pair',cur:'JPY'},
+ {name:'バス イナリ→ロヴァニエミ',note:'2/23 7:15発。1人1万〜1.2万円',status:'est',price:11000,qty:1,per:'pp',cur:'JPY'},
+ {name:'ロヴァニエミの宿',note:'2/23・24。1泊の料金 × 泊数',status:'est',price:18000,qty:2,per:'pair',cur:'JPY'},
+ {name:'ヘルシンキの宿',note:'2/26',status:'est',price:15000,qty:1,per:'pair',cur:'JPY'},
+ {name:'上海のホテル',note:'無料ホテルが通れば0円。自費なら1部屋1.5万円ほど',status:'est',price:0,qty:1,per:'pair',cur:'JPY'},
+ {name:'イヴァロ空港→イナリ',note:'Visit Inariのシャトルは1人€70(約1.2万円)。タクシーは2人で€85〜140。到着の60時間前までに予約',status:'est',price:12000,qty:1,per:'pp',cur:'JPY'},
+ {name:'ツアー(犬ぞり、氷上釣り、スノーモービル、オーロラ)',note:'1人1.5万〜4万円の目安。予約したら項目を分けて確定に',status:'est',price:27500,qty:1,per:'pp',cur:'JPY'},
+ {name:'食費',note:'1人1日あたり × 日数',status:'est',price:5000,qty:8,per:'pp',cur:'JPY'},
+ {name:'雑費・旅行保険',note:'防寒具レンタル、交通、保険など',status:'est',price:20000,qty:1,per:'pp',cur:'JPY'}
+].map((m,i)=>({id:'m'+i,u:0,...m}));
+
+const DEF_TODOS=[
+ ['交通','国際線を予約','吉祥航空。手荷物が運賃に含まれるかも確認',true],
+ ['交通','ヘルシンキ→イヴァロ便を予約','2/21 19:20 フィンエアー',true],
+ ['交通','夜行列車を予約','2/25 21:00 ロヴァニエミ発、椅子席',true],
+ ['交通','イナリ→ロヴァニエミのバスを予約','2/23 7:15 K-market前発 → 12:15着。宿からバス停まで歩けるかも確認',false],
+ ['交通','イヴァロ空港→イナリの足を決める','21:05着。Visit Inariのシャトル(1人€70、到着の60時間前までに予約)かタクシー(2人€85〜140)。宿に送迎を頼めるかも聞く',false],
+ ['宿','上海の宿を決める','吉祥航空の無料ホテル(2/18朝までに申請)か、Agodaで自費。無料が通るまでキャンセル無料の宿を保険で押さえる手も',false],
+ ['宿','イナリ1泊目(2/21)を予約','2泊目と同じホリデイヴィレッジ・イナリにすれば、宿の移動がなくなる',false],
+ ['宿','イナリ2泊目(2/22)を予約','ホリデイヴィレッジ・イナリ ¥98,460',true],
+ ['宿','ロヴァニエミ2泊を予約','2/23・24。2/25に荷物を預けられるか',false],
+ ['宿','ヘルシンキ1泊を予約','2/26。朝9:15着なので荷物預かりを確認',false],
+ ['アクティビティ','サンタ村の犬ぞりを予約','2/24の予定。2月は混むので早めに',false],
+ ['アクティビティ','イナリの氷上釣りを予約','2/22の予定',false],
+ ['アクティビティ','スノーモービルを決める','ロヴァニエミなら2/25日中が空いている。免許の要否も確認',false],
+ ['アクティビティ','オーロラツアーを決める','天気を見て直前予約もできる。宿の周りで見られるかも確認',false],
+ ['確認・準備','中国のビザ免除を確認','2026年12月31日まで延長と発表済み。2027年2月も使えるか',false],
+ ['確認・準備','旅行保険に入る','遅延・乗り継ぎ不能の補償があるもの',false],
+ ['確認・準備','防寒具を決める','レンタルか持参か。ツアー付属のことも多い',false],
+ ['確認・準備','支払い手段を用意','フィンランドはカード中心。上海ではAlipayなどがあると安心',false],
+ ['確認・準備','変換プラグを用意','フィンランドはCタイプ(230V)',false],
+ ['確認・準備','上海1泊分を機内持ち込みに','荷物はヘルシンキまで通しで預ける想定',false],
+ ['必要であれば','レストランを予約','記念日ディナーなど、行きたい店があれば',false],
+ ['必要であれば','サウナや観光地を探す','観光タブに候補あり',false]
+].map(([g,t,n,done],i)=>({id:'t'+i,u:0,g,t,n,done}));
+const TODO_GROUPS=['交通','宿','アクティビティ','確認・準備','必要であれば','その他'];
+
+const DEF_PAYS=[
+ {payer:1,parts:[0,1],name:'日本フィンランド飛行機',cur:'JPY',amount:343011},
+ {payer:0,parts:[0,1],name:'ヘルシンキからイヴァロ航空券',cur:'JPY',amount:65850},
+ {payer:0,parts:[0,1],name:'夜行列車',cur:'JPY',amount:9908},
+ {payer:1,parts:[0,1],name:'2/22→2/23 イナリ宿',cur:'JPY',amount:98460}
+].map((p,i)=>({id:'p'+i,u:0,...p}));
+
+const DEFAULTS=()=>({rate:170,mode:'pp',money:clone(DEF_MONEY),todos:clone(DEF_TODOS),spots:clone(DEF_SPOTS),members:['でごりん','みゆ'],pays:clone(DEF_PAYS),filter:'all',tomb:{},cu:0});
+let S=DEFAULTS();
+
+/* ---------- money ---------- */
+const amt2=m=>(+m.price||0)*(+m.qty||0)*(m.per==='pp'?2:1)*(m.cur==='EUR'?S.rate:1);
+const show=t2=>S.mode==='pp'?t2/2:t2;
+function totals(){
+  let f=0,e=0; S.money.forEach(m=>{m.status==='fixed'?f+=amt2(m):e+=amt2(m)}); return {f,e};
+}
+function renderHero(){
+  const {f,e}=totals(),t=f+e;
+  $('heroPP').innerHTML=yen(t/2)+'<small>1人あたり</small>';
+  $('heroPair').textContent='2人で '+yen(t);
+  const p=t?f/t*100:0; $('barF').style.width=p+'%'; $('barE').style.width=(100-p)+'%';
+  $('lgF').textContent=yen(f/2); $('lgE').textContent=yen(e/2);
+}
+function moneyRow(m){
+  return `<div class="row ${m.status==='est'?'est':''}">
+   <div class="top"><input class="nm" aria-label="項目名" data-c="money" data-id="${m.id}" data-f="name" value="${esc(m.name)}"><span class="amt" id="amt-${m.id}">${yen(show(amt2(m)))}</span></div>
+   <input class="nt" aria-label="メモ" data-c="money" data-id="${m.id}" data-f="note" value="${esc(m.note)}" placeholder="メモ">
+   <div class="calc">
+     <select class="field" data-c="money" data-id="${m.id}" data-f="cur" aria-label="通貨"><option value="JPY" ${m.cur==='JPY'?'selected':''}>¥</option><option value="EUR" ${m.cur==='EUR'?'selected':''}>€</option></select>
+     <input class="field p" type="number" inputmode="decimal" min="0" aria-label="金額" data-c="money" data-id="${m.id}" data-f="price" value="${m.price}">
+     ×<input class="field q" type="number" inputmode="decimal" min="0" aria-label="数" data-c="money" data-id="${m.id}" data-f="qty" value="${m.qty}">
+     <select class="field" data-c="money" data-id="${m.id}" data-f="per" aria-label="何人分の金額か"><option value="pair" ${m.per==='pair'?'selected':''}>2人分の金額</option><option value="pp" ${m.per==='pp'?'selected':''}>1人分の金額</option></select>
+   </div>
+   <div class="rfoot"><button class="link" data-act="mstatus" data-id="${m.id}">${m.status==='fixed'?'見積もりに戻す':'確定にする'}</button><button class="link" data-act="mdel" data-id="${m.id}">削除</button></div>
+  </div>`;
+}
+function renderMoney(){
+  const fx=S.money.filter(m=>m.status==='fixed'),es=S.money.filter(m=>m.status!=='fixed');
+  $('money').innerHTML=`<div class="toolbar">
+     <div class="modes"><button data-mode="pp" aria-pressed="${S.mode==='pp'}">1人あたり</button><button data-mode="pair" aria-pressed="${S.mode==='pair'}">2人分</button></div>
+     <label class="rate">1ユーロ<input class="field" type="number" inputmode="decimal" data-c="root" data-f="rate" value="${S.rate}">円</label></div>
+   <h2>確定</h2>${fx.map(moneyRow).join('')||'<p class="note">まだありません。</p>'}
+   <div class="sum"><span>確定の小計</span><span id="sumF"></span></div>
+   <h2>見積もり</h2>${es.map(moneyRow).join('')}
+   <div class="sum"><span>見積もりの小計</span><span id="sumE"></span></div>
+   <div class="sum grand"><span>合計</span><span id="sumAll"></span></div>
+   <div class="addbox"><div class="r"><input class="field" id="newMoney" placeholder="項目を追加(例:サンタ村の犬ぞり)" aria-label="追加する項目名"><button class="btn" data-act="madd">追加</button></div></div>
+   <p class="note">「2人分の金額」は部屋代など2人でいくらか、「1人分の金額」は1人いくらかで入力します。数は泊数や日数です。名前やメモもタップして書き換えられます。</p>`;
+  updateMoney();
+}
+function updateMoney(){
+  const {f,e}=totals();
+  if($('sumF')){$('sumF').textContent=yen(show(f));$('sumE').textContent=yen(show(e));$('sumAll').textContent=yen(show(f+e));}
+  S.money.forEach(m=>{const el=$('amt-'+m.id); if(el) el.textContent=yen(show(amt2(m)));});
+  renderHero();
+}
+
+/* ---------- plan ---------- */
+function renderPlan(){
+  const nights=PLAN.filter(d=>d.sleep);
+  const short=s=>s.replace(/泊.*$/,'').replace('ホリデイヴィレッジ・イナリ','イナリ').replace('ロヴァニエミ','ロヴァ').replace('ヘルシンキ','ヘルシ');
+  $('plan').innerHTML=`<div class="overview">${nights.map(d=>`<div class="p-${d.p}">${d.d}<span>${short(d.sleep)}</span></div>`).join('')}</div>
+   <p class="note" style="margin:0 0 14px">緑がイナリ、青がロヴァニエミ、赤がヘルシンキ、灰色が移動。行く場所は観光タブで日付を選ぶと、ここに出ます。</p>`+
+   PLAN.map((d,i)=>{
+     const go=S.spots.filter(s=>s.day===d.d);
+     return `<div class="day p-${d.p}"><div class="dhead"><div><div class="date">${d.d}<small>${d.w}曜</small></div><div class="dnum">${i+1}日目</div></div>${d.sleep?`<span class="sleep">${d.sleep}</span>`:''}</div>
+     <div class="dtitle">${d.title}</div>${d.ev.map(([t,x,k])=>`<div class="ev ${k?'key':''}"><b>${t}</b><span>${x}</span></div>`).join('')}
+     ${go.length?`<div class="go">行く場所 ${go.map(s=>`<span class="chip">${esc(s.name)}</span>`).join('')}</div>`:''}</div>`;}).join('');
+}
+
+/* ---------- spots ---------- */
+const openSpots=new Set();
+function renderSpots(){
+  const list=S.spots.filter(s=>S.filter==='all'||s.area===S.filter);
+  $('spots').innerHTML=`<div class="filters">${[['all','すべて'],...Object.entries(AREAS)].map(([k,v])=>`<button data-filter="${k}" aria-pressed="${S.filter===k}">${v}</button>`).join('')}</div>`+
+   list.map(s=>`<div class="spot p-${s.area}"><div class="sh"><span class="sn">${esc(s.name)}</span><span class="sa">${AREAS[s.area]}</span></div>
+    ${s.desc?`<div class="sd">${esc(s.desc)}</div>`:''}
+    <div class="sctl"><label>行く日 <select class="field" data-c="spots" data-id="${s.id}" data-f="day">${DAYS.map(([v,l])=>`<option value="${v}" ${s.day===v?'selected':''}>${l}</option>`).join('')}</select></label>
+      ${(s.time||s.book||s.tip)?`<button class="link" data-act="sopen" data-id="${s.id}" aria-expanded="${openSpots.has(s.id)}">${openSpots.has(s.id)?'詳細を閉じる':'詳細を見る'}</button>`:''}
+      <button class="link" data-act="sdel" data-id="${s.id}">削除</button></div>
+    ${openSpots.has(s.id)?`<dl>${s.time?`<dt>所要時間</dt><dd>${esc(s.time)}</dd>`:''}${s.book?`<dt>予約</dt><dd>${esc(s.book)}</dd>`:''}${s.tip?`<dt>ポイント</dt><dd>${esc(s.tip)}</dd>`:''}</dl>`:''}
+   </div>`).join('')+
+   `<div class="addbox"><strong>行きたい場所を追加</strong>
+     <div class="r"><input class="field" id="newSpotName" placeholder="場所の名前" aria-label="場所の名前"><select class="field" id="newSpotArea" aria-label="エリア">${Object.entries(AREAS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+     <div class="r"><input class="field" id="newSpotDesc" placeholder="メモ(任意)" aria-label="メモ"><button class="btn" data-act="sadd">追加</button></div></div>
+   <p class="note">営業時間や料金、冬季の営業は変わることがあるので、行く前に公式サイトで確認してください。</p>`;
+}
+
+/* ---------- split ---------- */
+const payYen=p=>(+p.amount||0)*(p.cur==='EUR'?S.rate:1);
+function settlement(){
+  const n=S.members.length, bal=Array(n).fill(0);
+  S.pays.forEach(p=>{const y=payYen(p),parts=p.parts.filter(i=>i<n); if(!parts.length) return; bal[p.payer]+=y; parts.forEach(i=>bal[i]-=y/parts.length);});
+  const deb=bal.map((b,i)=>({i,b})).filter(x=>x.b<-0.5).sort((a,b)=>a.b-b.b), cre=bal.map((b,i)=>({i,b})).filter(x=>x.b>0.5).sort((a,b)=>b.b-a.b);
+  const out=[]; let di=0,ci=0;
+  while(di<deb.length&&ci<cre.length){const x=Math.min(-deb[di].b,cre[ci].b); out.push({from:deb[di].i,to:cre[ci].i,amt:x}); deb[di].b+=x; cre[ci].b-=x; if(deb[di].b>-0.5)di++; if(cre[ci].b<0.5)ci++;}
+  return out;
+}
+function renderSplit(){
+  const M=S.members, total=S.pays.reduce((a,p)=>a+payYen(p),0), st=settlement();
+  $('split').innerHTML=`<h2>メンバー</h2><div class="members">${M.map((m,i)=>`<input class="field" aria-label="メンバー${i+1}" data-c="members" data-i="${i}" value="${esc(m)}">`).join('')}</div>
+   <h2>立て替えを追加</h2>
+   <div class="sentence">
+     <div class="r"><select class="field" id="pPayer" aria-label="払った人">${M.map((m,i)=>`<option value="${i}">${esc(m)}</option>`).join('')}</select>が</div>
+     <div class="r who">${M.map((m,i)=>`<label><input type="checkbox" class="pPart" value="${i}" checked>${esc(m)}</label>`).join('')}</div>
+     <div class="r">の<input class="field" id="pName" placeholder="タクシー代" aria-label="何の支払いか" style="flex:1">を払って、</div>
+     <div class="r"><select class="field" id="pCur" aria-label="通貨"><option value="JPY">¥</option><option value="EUR">€</option></select><input class="field" id="pAmt" type="number" inputmode="decimal" placeholder="4,800" aria-label="金額" style="flex:1">かかった。</div>
+     <button class="btn" data-act="padd" style="padding:12px">登録</button>
+   </div>
+   <h2>清算方法</h2>
+   ${st.length?st.map(t=>`<div class="settle"><span>${esc(M[t.from])} → ${esc(M[t.to])}</span><span>${yen(Math.floor(t.amt))}</span></div>`).join(''):'<p class="note">清算は不要です。</p>'}
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="note" style="margin:0">合計 ${yen(total)}(1人あたり ${yen(total/Math.max(M.length,1))})</span><button class="btn sub" data-act="pcopy" id="copyBtn">共有用にコピー</button></div>
+   <h2>みんなの立て替え</h2>
+   ${S.pays.map(p=>`<div class="pay"><div><div class="pn">${esc(p.name||'(名前なし)')}</div><div class="pm">${esc(M[p.payer])}が立て替え、${p.parts.map(i=>esc(M[i])).join('と')}で割る</div><button class="link" data-act="pdel" data-id="${p.id}">削除</button></div>
+     <div class="pa">${p.cur==='EUR'?`€${(+p.amount).toLocaleString('ja-JP')}<div class="pm">${yen(payYen(p))}</div>`:yen(p.amount)}</div></div>`).join('')||'<p class="note">まだありません。</p>'}
+   <p class="note">ユーロの支払いは、お金タブのレート(1ユーロ${S.rate}円)で円にして計算します。</p>`;
+}
+
+/* ---------- todo ---------- */
+function renderTodo(){
+  const T=S.todos, done=T.filter(t=>t.done).length;
+  const groups=[...new Set([...TODO_GROUPS,...T.map(t=>t.g)])].filter(g=>T.some(t=>t.g===g));
+  $('todo').innerHTML=`<div class="progress">${done} / ${T.length} 完了</div><div class="pbar"><div style="width:${T.length?done/T.length*100:0}%"></div></div>`+
+   groups.map(g=>`<h2>${esc(g)}</h2>`+T.filter(t=>t.g===g).map(t=>`<div class="todo ${t.done?'done':''}">
+     <input type="checkbox" data-act="tcheck" data-id="${t.id}" ${t.done?'checked':''} aria-label="${esc(t.t)}">
+     <span class="tx"><span class="t">${esc(t.t)}</span>${t.n?`<span class="n">${esc(t.n)}</span>`:''}</span>
+     <button class="link" data-act="tdel" data-id="${t.id}">削除</button></div>`).join('')).join('')+
+   `<div class="addbox"><strong>やることを追加</strong><div class="r"><input class="field" id="newTodo" placeholder="例:SIMカードを買う" aria-label="やること"><select class="field" id="newTodoG" aria-label="分類">${TODO_GROUPS.map(g=>`<option>${g}</option>`).join('')}</select></div>
+   <div class="r"><input class="field" id="newTodoN" placeholder="メモ(任意)" aria-label="メモ"><button class="btn" data-act="tadd">追加</button></div></div>`;
+}
+
+/* ---------- notes ---------- */
+const NOTES=[
+ ['乗り継ぎと移動',['上海でホテルに泊まるには中国への入国が必要。日本国籍のビザ免除は2026年12月31日まで延長と発表済みなので、2027年2月も使えるか確認する。','上海では荷物をヘルシンキまで通しで預ける想定。1泊分の着替えは機内持ち込みへ。','2/21はヘルシンキで荷物を受け取り、イヴァロ行きに預け直す(別々の予約のため)。','イヴァロ便は払い戻し・変更不可。国際線が大きく遅れたときに備えて、遅延・乗り継ぎ不能を補償する保険に入る。','2/23のイナリ発バスは本数が少ない(1日2本ほど)。7:15発を逃すと夕方の便になる。','夜行の椅子席は約12時間。首枕、耳栓、アイマスクがあると楽。','帰りは上海で13時間45分待ち。羽田着は3/1の深夜1:05なので、帰りの足を確保しておく。']],
+ ['寒さ対策',['2月のラップランドは氷点下20℃以下になることもある。重ね着、帽子、手袋、ネックウォーマーを。','靴は防水で滑りにくいもの。凍った道で転びやすい。','寒さでスマホの電池が急に減る。モバイルバッテリーを持ち、スマホは内ポケットへ。','防寒具はツアーで貸してもらえることが多い。予約時に確認する。']],
+ ['オーロラ',['見えるかどうかは雲次第。曇りの夜は、晴れ間を探して移動するツアーが有利。','オーロラ予報アプリと天気予報を、毎日夕方に確認する。','撮影は三脚があると格段にきれいに撮れる。スマホは夜景モードで、手すりなどに固定する。','夜はかなり冷えるので、長時間外で待つときは一番暖かい格好で。']],
+ ['お金と支払い',['フィンランドはカード払いが中心で、現金はほとんど不要。タッチ決済が便利。','上海ではAlipayやWeChat Payがあると安心。日本のクレジットカードを登録して使える。','フィンランドではチップは基本的に不要。']],
+ ['このアプリの使い方',['ホーム画面のアイコンから開く。Claudeにログインする必要はない。','でごりんとみゆが同じ接続コードを設定すると、追加・変更・チェックがお互いの画面に数秒で反映される。','電波がないときは、最後に見たデータが表示される。変更はその端末に保存され、つながったら自動で同期する。','画面上部の緑の表示が「2人で共有中」なら同期できている。赤い表示のときは、その端末だけに保存されている。','同じ項目を同時に書き換えると、あとから保存したほうが残る。']],
+ ['共有データの安全について',['接続コードを知っている人は、日程や金額を見られるうえ、書き換えもできる。家族以外には教えない。','予約番号、パスポート番号、住所は、このアプリに書かない。','旅行が終わったら、Firebaseのプロジェクトを削除すれば、データは消える。']],
+ ['生活と安全',['フィンランドのコンセントはCタイプ(230V)。変換プラグが必要。','フィンランドの水道水はそのまま飲める。','イナリは小さな村で、店やレストランが少なく、閉まるのも早め。夕食の場所は宿に確認しておく。','凍った湖の上は、自分だけで歩かずツアーで。','スノーモービルの運転には免許が必要なことが多い。日本の運転免許証を持っていく。']]
+];
+function renderNotes(){
+  $('notes').innerHTML=NOTES.map(([h,items],i)=>`<details ${i===0?'open':''}><summary>${h}</summary><ul>${items.map(x=>`<li>${x}</li>`).join('')}</ul></details>`).join('')+
+   '<p class="note">条件やルールは変わることがあります。出発前に公式情報で確認してください。</p>';
+}
+
+/* ---------- events ---------- */
+const TABS=['plan','spots','money','split','todo','notes','settings'];
+function gotoTab(name){
+  document.querySelectorAll('#tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.tab===name));
+  TABS.forEach(id=>$(id).hidden=id!==name);
+  window.scrollTo({top:document.querySelector('nav').offsetTop});
+}
+function normUrl(u){u=(u||'').trim(); if(!u) return ''; if(!/^https?:\/\//i.test(u)) u='https://'+u; try{return new URL(u).origin;}catch(e){return '';}}
+function randKey(){const c='abcdefghijkmnpqrstuvwxyz23456789';const a=new Uint8Array(24);(window.crypto||{getRandomValues:x=>x.forEach((_,i)=>x[i]=Math.random()*256)}).getRandomValues(a);return [...a].map(x=>c[x%c.length]).join('');}
+function enc(d,k){return btoa(JSON.stringify({d,k}));}
+function dec(c){try{const o=JSON.parse(atob((c||'').trim())); return (o&&o.d&&o.k)?o:null;}catch(e){return null;}}
+function copyText(txt,btn,label){
+  const done=()=>{if(!btn)return; const o=label||btn.textContent; btn.textContent='コピーしました'; setTimeout(()=>btn.textContent=o,1500);};
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(_){} ta.remove();});
+}
+function msg(t,ok){const el=$('cMsg'); if(el){el.textContent=t; el.className='msg '+(ok?'ok':'ng');}}
+async function connect(d,k){
+  if(!d){msg('データベースのURLを入れてください');return;}
+  if(!/^[A-Za-z0-9_-]{12,}$/.test(k||'')){msg('合言葉は、英数字(と-_)12文字以上にしてください。「自動で作る」が便利です');return;}
+  msg('接続を確認中…',true);
+  try{
+    const r=await fetch(d+'/trip/'+encodeURIComponent(k)+'/ping.json',{cache:'no-store'});
+    if(r.status===401||r.status===403){msg('許可されていません(HTTP '+r.status+')。Firebaseの「ルール」を貼って「公開」したか確認してください');return;}
+    if(r.status===404){msg('データベースが見つかりません(HTTP 404)。URLを確認してください');return;}
+    if(!r.ok){msg('接続できませんでした(HTTP '+r.status+')');return;}
+  }catch(e){msg('つながりません。URLの間違いか、電波がないかもしれません');return;}
+  localStorage.setItem('trip-conn',JSON.stringify({d,k}));
+  msg('接続できました。再読み込みします…',true);
+  setTimeout(()=>location.reload(),600);
+}
+function renderSettings(){
+  const c=CONN&&CONN.d&&CONN.k?CONN:null;
+  $('settings').innerHTML=`<h2>共有の状態</h2><div class="card" id="connState"></div>
+  ${c?`<h2>接続コード(2人目に送る)</h2><div class="card">相手のスマホで「接続コードを貼る」に入れると、同じデータが見られます。LINEなど、家族だけに送ってください。
+    <div class="r"><input class="field" id="cCodeOut" readonly aria-label="接続コード" value="${esc(enc(c.d,c.k))}"><button class="btn" data-act="ccopy">コピー</button></div></div>`:''}
+  <h2>${c?'接続先を変える':'1人目:共有を設定する'}</h2>
+  <div class="card"><label class="l" for="cUrl">① FirebaseのデータベースURL</label>
+    <input class="field" id="cUrl" style="width:100%" placeholder="https://〜.firebasedatabase.app" inputmode="url" autocapitalize="off" autocorrect="off" value="${esc(c?c.d:'')}">
+    <label class="l" for="cKey">② 合言葉(URLと合わせて「鍵」になります)</label>
+    <div class="r"><input class="field" id="cKey" placeholder="英数字12文字以上" autocapitalize="off" autocorrect="off" value="${esc(c?c.k:'')}"><button class="btn sub" data-act="cgen">自動で作る</button></div>
+    <div class="r"><button class="btn" data-act="cset" style="flex:1;padding:12px">接続して保存</button></div></div>
+  <h2>2人目:接続コードを貼る</h2>
+  <div class="card"><input class="field" id="cCode" style="width:100%" placeholder="接続コードを貼り付け" autocapitalize="off" autocorrect="off">
+    <div class="r"><button class="btn" data-act="cpaste" style="flex:1;padding:12px">コードで接続</button></div>
+    <div class="msg" id="cMsg"></div></div>
+  <h2>いますぐ同期</h2><div class="card"><button class="btn sub" data-act="bsync">今すぐ同期する</button></div>
+  <h2>バックアップ</h2>
+  <div class="card">全データを文字にして書き出せます。メモなどに貼っておくと安心です。読み込むときは、下の欄に貼って「読み込む」。
+    <textarea class="field" id="bText" aria-label="バックアップ" placeholder="ここに書き出されます"></textarea>
+    <div class="r"><button class="btn sub" data-act="bexp">書き出す</button><button class="btn sub" data-act="bcopy">コピー</button><button class="btn sub" data-act="bimp">読み込む</button></div>
+    <div class="msg" id="bMsg"></div></div>
+  ${c?`<h2>共有をやめる</h2><div class="card">この端末の接続を外します(Firebase上のデータは消えません)。<div class="r"><button class="btn sub" data-act="cclear">この端末の接続を外す</button></div></div>`:''}
+  <p class="note">この画面で入れた設定は、この端末(このアイコン)だけに保存されます。iPhoneでは、Safariとホーム画面のアイコンでデータがわかれるので、必ずホーム画面のアイコンから開いて設定してください。</p>`;
+}
+function renderAll(){renderHero();renderPlan();renderSpots();renderMoney();renderSplit();renderTodo();renderNotes();renderSettings();}
+const COLS=['money','todos','spots','pays'];
+let timer,syncing=false,again=false,pendingRender=false;
+const stable=o=>JSON.stringify(o,(k,v)=>(v&&typeof v==='object'&&!Array.isArray(v))?Object.keys(v).sort().reduce((r,x)=>(r[x]=v[x],r),{}):v);
+const norm=a=>stable([...a].sort((x,y)=>x.id<y.id?-1:1));
+function del(col,id){S[col]=S[col].filter(x=>x.id!==id);S.tomb[id]=Date.now();}
+function mergeCol(col,remote){
+  const tomb=Object.assign({},remote.tomb||{});
+  for(const k in S.tomb) tomb[k]=Math.max(tomb[k]||0,S.tomb[k]);
+  const map={};
+  [...(remote.items||[]),...S[col]].forEach(x=>{if(!map[x.id]||(x.u||0)>(map[x.id].u||0)) map[x.id]=x;});
+  let items=Object.values(map).filter(x=>!(tomb[x.id]!==undefined&&tomb[x.id]>=(x.u||0)));
+  if(col==='pays') items=items.map((x,i)=>[x,i]).sort((a,b)=>((b[0].u||0)-(a[0].u||0))||(a[1]-b[1])).map(x=>x[0]);
+  return {items,tomb};
+}
+async function rget(k){
+  try{const r=await window.storage.get(k,true); return JSON.parse(r.value);}
+  catch(e){ if(e&&e.message==='nf') return null; throw e; }
+}
+async function rset(k,o){await window.storage.set(k,JSON.stringify(o),true);}
+function cacheSave(){try{localStorage.setItem('trip-cache-v5',JSON.stringify(S));}catch(e){}}
+function setStatus(kind,e){
+  const t=new Date().toLocaleTimeString('ja-JP');
+  let dot='#FFB3B3',msg='';
+  if(kind==='ok'){dot='#7FD3A2';msg='2人で共有中(同期 '+t+')';}
+  else if(kind==='wait'){dot='#FFCE00';msg='接続中…';}
+  else if(kind==='local'){msg='共有は未設定(この端末だけに保存)';}
+  else{
+    const m=String((e&&e.message)||e);
+    if(/http (401|403)/.test(m)) msg='共有の許可がありません。Firebaseのルールを確認してください';
+    else if(/http 404/.test(m)) msg='データベースが見つかりません。設定のURLを確認してください';
+    else msg='オフラインです。この端末に保存して、つながったら自動で同期します';
+  }
+  let html='<i style="background:'+dot+'"></i>'+msg;
+  if(kind==='local') html+='<button class="link" data-tab="settings">設定する</button>';
+  [$('sync'),$('connState')].forEach(el=>{if(el) el.innerHTML=html;});
+}
+async function syncAll(){
+  if(syncing){again=true;return;}
+  syncing=true;
+  try{
+    if(!REMOTE){setStatus('local');cacheSave();return;}
+    let changed=false;
+    for(const col of COLS){
+      const remote=await rget(KEY+col);
+      const m=mergeCol(col,remote||{items:[],tomb:{}});
+      const before=norm(S[col]); S.tomb=m.tomb; S[col]=m.items;
+      if(norm(m.items)!==before) changed=true;
+      if(!remote||norm(remote.items||[])!==norm(m.items)||stable(remote.tomb||{})!==stable(m.tomb)) await rset(KEY+col,m);
+    }
+    const rc=await rget(KEY+'conf');
+    if(rc){
+      if((rc.u||0)>(S.cu||0)){S.rate=rc.rate;S.members=rc.members;S.cu=rc.u;changed=true;}
+      else if((rc.u||0)<(S.cu||0)) await rset(KEY+'conf',{rate:S.rate,members:S.members,u:S.cu});
+    }else await rset(KEY+'conf',{rate:S.rate,members:S.members,u:S.cu});
+    setStatus('ok'); cacheSave();
+    if(changed||pendingRender) renderIfIdle();
+  }catch(e){setStatus('err',e);cacheSave();}
+  finally{syncing=false; if(again){again=false;syncAll();}}
+}
+function renderSome(){renderHero();renderPlan();renderSpots();renderMoney();renderSplit();renderTodo();}
+function renderIfIdle(){
+  const a=document.activeElement;
+  if(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName)&&a.type!=='checkbox'&&a.closest&&a.closest('main')){pendingRender=true;return;}
+  pendingRender=false; renderSome();
+}
+document.addEventListener('focusout',()=>{if(pendingRender) setTimeout(renderIfIdle,60);});
+function save(){cacheSave();clearTimeout(timer);timer=setTimeout(syncAll,500);}
+
+document.addEventListener('input',e=>{
+  const d=e.target.dataset; if(!d.c) return;
+  if(d.c==='root'){S[d.f]=parseFloat(e.target.value)||0; S.cu=Date.now(); updateMoney(); save(); return;}
+  if(d.c==='members'){S.members[+d.i]=e.target.value; S.cu=Date.now(); save(); return;}
+  const it=S[d.c].find(x=>x.id===d.id); if(!it) return;
+  it[d.f]=e.target.type==='number'?(parseFloat(e.target.value)||0):e.target.value; it.u=Date.now();
+  if(d.c==='money') updateMoney();
+  save();
+});
+document.addEventListener('change',e=>{
+  const d=e.target.dataset;
+  if(d.c==='spots'){renderPlan();save();}
+  if(d.c==='money'&&(d.f==='cur'||d.f==='per')){updateMoney();save();}
+  if(d.c==='root'){renderSplit();}
+  if(d.c==='members'){renderSplit();}
+  if(d.act==='tcheck'){const t=S.todos.find(x=>x.id===d.id); t.done=e.target.checked; t.u=Date.now(); renderTodo(); save();}
+});
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return; const d=b.dataset;
+  if(d.tab){gotoTab(d.tab);return;}
+  if(d.mode){S.mode=d.mode;renderMoney();save();return;}
+  if(d.filter){S.filter=d.filter;renderSpots();save();return;}
+  switch(d.act){
+    case 'madd':{const v=$('newMoney').value.trim(); if(!v) return; S.money.push({id:uid(),u:Date.now(),name:v,note:'',status:'est',price:0,qty:1,per:'pair',cur:'JPY'}); renderMoney(); break;}
+    case 'mdel':{del('money',d.id); renderMoney(); break;}
+    case 'mstatus':{const m=S.money.find(x=>x.id===d.id); m.status=m.status==='fixed'?'est':'fixed'; m.u=Date.now(); renderMoney(); break;}
+    case 'sopen':{openSpots.has(d.id)?openSpots.delete(d.id):openSpots.add(d.id); renderSpots(); return;}
+    case 'sdel':{del('spots',d.id); renderSpots(); renderPlan(); break;}
+    case 'sadd':{const v=$('newSpotName').value.trim(); if(!v) return; S.spots.push({id:uid(),u:Date.now(),area:$('newSpotArea').value,day:'',name:v,desc:$('newSpotDesc').value.trim(),time:'',book:'',tip:''}); renderSpots(); break;}
+    case 'tdel':{del('todos',d.id); renderTodo(); break;}
+    case 'tadd':{const v=$('newTodo').value.trim(); if(!v) return; S.todos.push({id:uid(),u:Date.now(),g:$('newTodoG').value,t:v,n:$('newTodoN').value.trim(),done:false}); renderTodo(); break;}
+    case 'padd':{const a=parseFloat($('pAmt').value); const parts=[...document.querySelectorAll('.pPart:checked')].map(x=>+x.value);
+      if(!a||!parts.length){$('pAmt').focus();return;}
+      S.pays.unshift({id:uid(),u:Date.now(),payer:+$('pPayer').value,parts,name:$('pName').value.trim(),cur:$('pCur').value,amount:a}); renderSplit(); break;}
+    case 'pdel':{del('pays',d.id); renderSplit(); break;}
+    case 'pcopy':{const txt=settlement().map(t=>`${S.members[t.from]} → ${S.members[t.to]} ${yen(Math.floor(t.amt))}`).join('\n')||'清算は不要です';
+      const done=()=>{b.textContent='コピーしました';setTimeout(()=>b.textContent='共有用にコピー',1500);};
+      (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(_){} ta.remove();});
+      return;}
+    case 'cgen':{$('cKey').value=randKey(); return;}
+    case 'cset':{connect(normUrl($('cUrl').value),$('cKey').value.trim()); return;}
+    case 'cpaste':{const o=dec($('cCode').value); if(!o){msg('接続コードが読み取れません。コピーし直してください');return;} connect(normUrl(o.d),o.k); return;}
+    case 'ccopy':{copyText($('cCodeOut').value,b,'コピー'); return;}
+    case 'cclear':{if(confirm('この端末の接続を外します。よろしいですか?')){localStorage.removeItem('trip-conn');location.reload();} return;}
+    case 'bsync':{setStatus('wait'); syncAll(); return;}
+    case 'bexp':{$('bText').value=JSON.stringify(S); $('bText').select(); $('bMsg').textContent='書き出しました。「コピー」で全文をコピーできます'; $('bMsg').className='msg ok'; return;}
+    case 'bcopy':{if(!$('bText').value) $('bText').value=JSON.stringify(S); copyText($('bText').value,b,'コピー'); return;}
+    case 'bimp':{
+      try{
+        const o=JSON.parse($('bText').value); if(!o||!Array.isArray(o.money)||!Array.isArray(o.todos)) throw 0;
+        const now=Date.now(); COLS.forEach(c=>(o[c]||[]).forEach(x=>{x.u=now;}));
+        S=Object.assign(DEFAULTS(),o,{cu:now}); renderAll(); save(); gotoTab('settings');
+        $('bText').value=''; $('bMsg').textContent='読み込みました'; $('bMsg').className='msg ok';
+      }catch(e){$('bMsg').textContent='読み込めません。書き出した文字をそのまま貼ってください'; $('bMsg').className='msg ng';}
+      return;}
+    default: return;
+  }
+  save();
+});
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const map={newMoney:'madd',newSpotName:'sadd',newSpotDesc:'sadd',newTodo:'tadd',newTodoN:'tadd',pAmt:'padd'};const a=map[e.target.id];if(a)document.querySelector(`[data-act="${a}"]`).click();});
+
+(async function init(){
+  try{const c=localStorage.getItem('trip-cache-v5'); if(c) S=Object.assign(DEFAULTS(),JSON.parse(c));}catch(e){}
+  renderAll(); setStatus('wait');
+  await syncAll();
+  setInterval(()=>{if(!document.hidden) syncAll();},5000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden) syncAll();});
+  window.addEventListener('online',syncAll);
+  if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>
